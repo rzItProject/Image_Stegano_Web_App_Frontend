@@ -1,5 +1,3 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 ## Getting Started
 
 First, run the development server:
@@ -14,21 +12,48 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Guide d'utilisation de `build_and_run_docker_image.sh`
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Ce script permet de construire une image Docker à partir d'un `Dockerfile` spécifié et de lancer un conteneur basé sur cette image.
 
-## Learn More
+## Prérequis
 
-To learn more about Next.js, take a look at the following resources:
+- Docker doit être installé et en cours d'exécution sur votre machine.
+- Assurez-vous que le script `build_and_run_docker_image.sh` est exécutable. Si ce n'est pas le cas, exécutez la commande suivante :
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  ```bash
+  chmod +x build_and_run_docker_image.sh
+  ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Utilisation
 
-## Deploy on Vercel
+### Syntaxe
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+./build_and_run.sh <image_name:tag> <port> [Dockerfile]
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Paramètres
+
+- `image_name:tag` : Le nom et le tag de l'image Docker que vous souhaitez construire.
+- `port` : Le port sur lequel vous souhaitez exposer votre application.
+- `Dockerfile` (optionnel) : Le chemin vers le `Dockerfile` que vous souhaitez utiliser. Par défaut, il utilise "Dockerfile" dans le répertoire courant.
+
+### Exemples
+
+1. Construire une image avec le nom `mon-projet` et le tag `latest`, puis la lancer sur le port 3000 :
+
+   ```bash
+   ./build_and_run.sh mon-projet:latest 3000
+   ```
+
+2. Construire une image avec le nom `mon-projet`, le tag `latest`, et un `Dockerfile` différent, puis la lancer sur le port 3000 :
+
+   ```bash
+   ./build_and_run.sh mon-projet:latest 3000 MyDockerfile
+   ```
+
+## Notes
+
+- Le conteneur sera lancé en mode détaché (`-d`).
+- Le conteneur sera automatiquement supprimé après son arrêt grâce à l'option `--rm`.
